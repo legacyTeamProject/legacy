@@ -1,9 +1,12 @@
 const db = require('../Models/Image')
+const connection=require("../Connection")
+const model = connection.models
+
 
 module.exports ={
     addImage: async(req,res)=>{
         try {
-            const addition = db.Image.create(req.body,{where:{productProdId:req.params.productProdId}})
+            const addition = model.image.create(req.body,{where:{productProdId:req.params.id}})
             res.json(addition)
         }
         catch (error) {res.send(error)}
@@ -11,7 +14,7 @@ module.exports ={
 
     // UpdateCategory : async(req,res) => {
     //     try {
-    //     const updated=await db.Image.update(req.body,{where:{catId:req.params.catId}})
+    //     const updated=await model.image.update(req.body,{where:{catId:req.params.catId}})
     //     res.json(updated)   
     //     }
     //      catch (error) {res.send(error)}
@@ -19,8 +22,8 @@ module.exports ={
     
     deleteImage: async (req,res)=>{
         try {
-            const deleted = await db.Image.destroy({
-                where :  {imgId:req.params.imgId}
+            const deleted = await model.image.destroy({
+                where :  {imgId:req.params.id}
             })
             res.json(deleted)
         }
@@ -28,13 +31,13 @@ module.exports ={
     },
     getImage : async(req,res) => {
         try {
-        const categories=await db.Image.findAll({});
+        const categories=await model.image.findAll({});
         res.json(categories) }
          catch (error) {res.send(error) }
     },
     getOneImage : async(req,res)=>{
         try{
-            const category=await db.Image.findOne({where:{imgId:req.params.imgId}})
+            const category=await model.image.findOne({where:{imgId:req.params.id}})
             res.json(category)
         }
         catch (error) {res.send(error) }

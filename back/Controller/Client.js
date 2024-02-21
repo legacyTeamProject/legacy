@@ -1,4 +1,7 @@
 const db = require('../Models/User')
+const connection = require('../Connection')
+const model = connection.models
+
 const bycribt = require("bcrypt");
 module.exports ={
     updateClient: async (req,res)=>{
@@ -10,8 +13,8 @@ module.exports ={
    const img =req.body.image
         try {
             const hashpwd = await bycribt.hash(newpwd, 10);
-            const upd = db.User.update({firstName:firstName,lastName:lastName,email:email,password:hashpwd,image:img},{
-                where:{userId:req.params.userId}
+            const upd = model.users.update({firstName:firstName,lastName:lastName,email:email,password:hashpwd,image:img},{
+                where:{userId:req.params.id}
             });
             res.status(200).json(upd);
           } catch (err) {
@@ -21,13 +24,13 @@ module.exports ={
     },  
     getClient : async(req,res) => {
         try {
-        const client=await db.User.findAll({});
+        const client=await model.users.findAll({});
         res.json(client) }
          catch (error) {res.send(error) }
     },
     getOneClient:async(req,res)=>{
         try{
-            const client=await db.User.findOne({where:{userId:req.params.userId}})
+            const client=await model.users.findOne({where:{userId:req.params.id}})
             res.json(client)
         }
         catch (error) {res.send(error) }
@@ -35,7 +38,7 @@ module.exports ={
 
     getSome:async(req,res)=>{
         try{
-            clients=await db.User.findAll({
+            clients=await model.users.findAll({
                 where:{role:req.params.role}
             })
             res.status(200).json(clients)
@@ -48,7 +51,7 @@ module.exports ={
 
     addClient:async(req,res)=>{
         try {
-            const result=await db.User.create(req.body)
+            const result=await model.users.create(req.body)
             res.json(result)
             console.log(req.body) 
         } 
@@ -59,14 +62,14 @@ module.exports ={
 
         deleteClient:async(req,res)=>{
             try {
-                const result=await db.User.destroy({where:{userId:req.params.userId}})
+                const result=await model.users.destroy({where:{userId:req.params.id}})
                 res.json(result) } 
                 catch (error){res.send(error) }
         },
 
         updateUserRole:async(req,res)=>{
             try {
-                const role=await db.User.update({role:req.body.role},{
+                const role=await model.users.update({role:req.body.role},{
                     where:{userId:req.params.userId}
                 })
                res.json(role)

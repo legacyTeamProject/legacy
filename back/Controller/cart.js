@@ -1,7 +1,8 @@
-const {cart} = require('../Models/cart')
+const connection = require('../Connection')
+const model= connection.models
 
 const getAll = function (req, res) {
-    const user=  cart.findAll({}).then((result)=>{
+    const user=  model.cart.findAll({}).then((result)=>{
       res.status(201).send(result)
     })
     .catch((error)=>{
@@ -10,17 +11,17 @@ const getAll = function (req, res) {
     }
     //test
     
-    // const getAllByUserId= function (req, res) {
-    //       const getone= wishlist.findAll({where:{userId:req.params.id}}).then((result)=>{
-    //         res.json(result)
-    //       })
-    //       .catch((error)=>{
-    //         res.send(error)
-    //       })
-    //       }
+    const getByUserId= function (req, res) {
+          const getone= model.wishlist.findAll({where:{userUserId:req.params.id}}).then((result)=>{
+            res.json(result)
+          })
+          .catch((error)=>{
+            res.send(error)
+          })
+          }
   
   const add = function (req, res) {
-    const user=  cart.create(req.body).then((result)=>{
+    const user=  model.cart.create(req.body).then((result)=>{
       res.json(user)
     })
     .catch((error)=>{
@@ -29,7 +30,7 @@ const getAll = function (req, res) {
     }
   
   const del = function (req, res) {
-    const user=  cart.destroy({where:{idCart:req.params.idCart}}).then((result)=>{
+    const user=  model.cart.destroy({where:{idCart:req.params.idCart}}).then((result)=>{
       res.json(user)
     })
     .catch((error)=>{
@@ -42,4 +43,4 @@ const getAll = function (req, res) {
   
   
   
-    module.exports={getAll, add ,del}
+    module.exports={getAll, add ,del,getByUserId}

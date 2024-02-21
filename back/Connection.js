@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize')
 const mysql = require('mysql2')
-const  {Type} = require('./Models/cattype') 
+const  {type} = require('./Models/cattype') 
 const {userschema}  =require('./Models/User') 
 const { WishlistSchema } =require('./Models/WishList') 
 const { productSchema } =require( './Models/Product')
@@ -39,9 +39,9 @@ const Category= connection.define("category",categorySchema,{timestamps:false})
 
 const wishlist=connection.define('wishlist',WishlistSchema,{timestamps:false})
 
-const User = connection.define('Users',userschema,{timestamps:false})
+const User = connection.define('users',userschema,{timestamps:false})
 
-const CatType = connection.define('Type', Type,{timestamps:false})
+const CatType = connection.define('type', type,{timestamps:false})
 
 const Image= connection.define("image",imageSchema,{timestamps:false})
 
