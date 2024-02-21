@@ -1,6 +1,6 @@
 const {  DataTypes } = require("sequelize")
 
-const Type = {
+const type = {
     type_id : {
          type : DataTypes.INTEGER,
          autoIncrement : true,
@@ -16,4 +16,4 @@ const Type = {
   }
 
 
-module.exports= {Type}
+module.exports= {type}

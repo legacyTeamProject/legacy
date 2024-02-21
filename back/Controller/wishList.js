@@ -1,10 +1,10 @@
-const {wishlist}=require("../Models/WishList")
-
+const connection=require("../Connection")
+const model = connection.models
 
 
 
 const getAll = function (req, res) {
-  const get= wishlist.findAll({}).then((result)=>{
+  const get= model.wishlist.findAll({}).then((result)=>{
     res.status(201).send(result)
   })
   .catch((error)=>{
@@ -21,7 +21,7 @@ const getAll = function (req, res) {
   //   }
 
 const add = function (req, res) {
-  const add= wishlist.create(req.body).then((result)=>{
+  const add= model.wishlist.create(req.body).then((result)=>{
     res.json(result)
   })
   .catch((error)=>{
@@ -30,7 +30,7 @@ const add = function (req, res) {
   }
 
 const del = function (req, res) {
-  const del= wishlist.destroy({where:
+  const del= model.wishlist.destroy({where:
     {idWishlist:req.params.idWishlist,
 
   }}).then((result)=>{

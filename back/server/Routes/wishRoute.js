@@ -3,7 +3,7 @@ const {getAll,add ,del}=require('../../Controller/wishList')
 
 
 
-wishrouter.get('/getall',getAll)
+wishrouter.get('/getAll',getAll)
 wishrouter.post('/add',add)
 wishrouter.delete('/delete/:idWishlist',del)
 

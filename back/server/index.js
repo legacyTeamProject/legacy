@@ -15,6 +15,7 @@ const authrouter=require('./Routes/authRoute')
 const wishrouter=require('./Routes/wishRoute')
 const ImageRouter=require('./Routes/ImgRoute')
 const cartRouter=require('./Routes/cartRoute')
+const commentRouter=require('./Routes/commentRoutes')
 
 app.use(cors())
 app.use(express.json())
@@ -27,13 +28,14 @@ app.use("/client", clientRouter)
 
 app.use("/auth",authrouter)
 
-app.use("/fav",wishrouter)
+app.use("/wish",wishrouter)
 
 app.use('/category',categoryRouter)
 
 app.use('/img',ImageRouter)
 
 app.use('/cartt', cartRouter)
+app.use('/comment', commentRouter)
 
 
 // connection.sync({alter: true})

@@ -2,7 +2,7 @@ const { DataTypes} = require('sequelize')
 
 
 
-userschema={
+const userschema={
     userId:{
         type:DataTypes.INTEGER,
         autoIncrement: true,
@@ -44,5 +44,5 @@ userschema={
 
 
 module.exports={
-   userschema
+    userschema
 }
