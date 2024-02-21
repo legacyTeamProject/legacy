@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import wish from '../assets/wish.png'
 import cart from '../assets/cart.png'
