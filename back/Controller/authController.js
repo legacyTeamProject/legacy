@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 require("dotenv").config()
 const secretKey = process.env.JWT_SECRET;
 console.log("secret",secretKey)
-
+//test
 const connection=conn.models
 
 const signupUser = async (req, res) => {
