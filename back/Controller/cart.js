@@ -8,6 +8,7 @@ const getAll = function (req, res) {
       res.send(error)
     })
     }
+    //test
     
     // const getAllByUserId= function (req, res) {
     //       const getone= wishlist.findAll({where:{userId:req.params.id}}).then((result)=>{
