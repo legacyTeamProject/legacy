@@ -1,10 +1,14 @@
 const cartRouter = require('express').Router()
-const {getAll, add ,del,getByUserId} = require ('../../Controller/cart')
+const {getAll, add ,del,getByUserIdwish,getByUserIdcart,delet} = require ('../../Controller/cart')
 
 cartRouter.get('/getAll',getAll)
 cartRouter.post('/addOne',add)
-cartRouter.delete('/delete/:idCart',del)
-cartRouter.get('/getUser/:id',getAll)
+cartRouter.delete('/deleteAll/:idCart',del)
+cartRouter.get('/getUserw/:id', getByUserIdwish)
+cartRouter.get('/getUserc/:id', getByUserIdcart)
+cartRouter.delete('/deletprod/:id', delet)
+
+
 
 
 module.exports= cartRouter

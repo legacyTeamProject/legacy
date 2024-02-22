@@ -9,17 +9,29 @@ const getAll = function (req, res) {
       res.send(error)
     })
     }
-    //test
-    
-    const getByUserId= function (req, res) {
-          const getone= model.wishlist.findAll({where:{userUserId:req.params.id}}).then((result)=>{
-            res.json(result)
-          })
-          .catch((error)=>{
-            res.send(error)
-          })
-          }
   
+  
+          const getByUserIdwish= function (req, res) {
+            model.product.findAll({includes:{model:model.wishlist, where:{userUserId:req.params.id}}}).then((result)=>{
+               res.json(result)
+             })
+             .catch((error)=>{
+               res.send(error)
+             })
+             }
+
+             const getByUserIdcart= function (req, res) {
+              model.product.findAll({includes:{model:model.cart, where:{userUserId:req.params.id}}}).then((result)=>{
+                 res.json(result)
+               })
+               .catch((error)=>{
+                 res.send(error)
+               })
+               }
+
+
+
+
   const add = function (req, res) {
     const user=  model.cart.create(req.body).then((result)=>{
       res.json(user)
@@ -37,10 +49,18 @@ const getAll = function (req, res) {
       res.send(error)
     })
     }
+    const delet = function (req, res) {
+      const user=  model.cart.destroy({where:{productProdId:req.params.id}}).then((result)=>{
+        res.json(user)
+      })
+      .catch((error)=>{
+        res.send(error)
+      })
+      }
   
   
   
   
   
   
-    module.exports={getAll, add ,del,getByUserId}
+    module.exports={getAll, add ,del,getByUserIdwish,getByUserIdcart,delet}

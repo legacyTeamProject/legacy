@@ -7,7 +7,7 @@ categoryRouter.delete('/delete/:catId',deleteCategory)
 categoryRouter.post('/add',addCategory)
 categoryRouter.put('/update/:catId',UpdateCategory)
 categoryRouter.get('/catprodz/:categoryCatId',getCategoryzProd)
-categoryRouter.get('/catprodz/:categoryCatId',getCategoryzProd)
+
 categoryRouter.get('/catprodz/:categoryCatId/:type_id',getSubCategoryzProd)
 categoryRouter.post('/addtype',addCattype)
 categoryRouter.get('/Sub',getSub)
