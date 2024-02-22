@@ -29,7 +29,7 @@ module.exports ={
 
     addCategory: async(req,res)=>{
         try {
-            const addition = model.pategory.create(req.body)
+            const addition = model.category.create(req.body)
             res.json(addition)
         }
         catch (error) {res.send(error)}
