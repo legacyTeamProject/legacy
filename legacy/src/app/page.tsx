@@ -15,15 +15,28 @@ export default function Home() {
 
   const[data,setData]=useState<[]>()
 
+// useEffect(
+//   ()=>{
+//      async function getall() {
+//         try{
+
+//           await axios.get('http://localhost:3000/category/getAll')
+//           .then((res)=>setData(res.data))
+
+//         }catch(err){console.log(err)}
+
+//       }
+//       getall()
+//   },[]
+// )
 useEffect(
   ()=>{
-     async function getall() {
-        try{
+     const getall=()=> {
+        
+ axios.get('http://localhost:3000/category/getAll')
+          .then((res)=>{setData(res.data)})
 
-          await axios.get('http://localhost:3000/category/getAll')
-          .then((res)=>setData(res.data))
-
-        }catch(err){console.log(err)}
+        .catch((err)=>{console.log(err)})
 
       }
       getall()
@@ -34,7 +47,6 @@ useEffect(
 
   return (
     <main >
-      <Header/>
     
 
     <div className="bg-gray-100 h-screen py-8">
@@ -179,7 +191,6 @@ useEffect(
       </div>
     </div>
     <Cloudzz/>
-      <Footer/>
     </main>
   );
 }
