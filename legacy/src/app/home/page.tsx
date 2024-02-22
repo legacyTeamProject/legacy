@@ -3,6 +3,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main >
+
   
   
     
@@ -48,7 +49,7 @@ export default function Home() {
     <Categories funcky={funcky} />
     <MonthProduct func={func} />
     <OurProducts func={func} />
-        
+
     </main>
   );
 }
