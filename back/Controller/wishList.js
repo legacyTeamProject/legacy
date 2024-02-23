@@ -11,6 +11,20 @@ const getAll = function (req, res) {
     res.send(error)
   })
   }
+
+
+  
+const getonewish = function (req, res) {
+  const get= model.product.findAll({includes:{model:model.wishlist, where:{userUserId:req.params.id}}}).then((result)=>{
+    res.status(201).send(result)
+  })
+  .catch((error)=>{
+    res.send(error)
+  })
+  }
+
+
+  
   // const getAllByUserId= function (req, res) {
   //   const getone= wishlist.findAll({where:{userId:req.params.id}}).then((result)=>{
   //     res.json(result)
@@ -29,11 +43,21 @@ const add = function (req, res) {
   })
   }
 
-const del = function (req, res) {
-  const del= model.wishlist.destroy({where:
-    {idWishlist:req.params.idWishlist,
+// const del = function (req, res) {
+//   const del= model.wishlist.destroy({where:
+//     {idWishlist:req.params.idWishlist,
 
-  }}).then((result)=>{
+//   }}).then((result)=>{
+//     res.json(result)
+//   })
+//   .catch((error)=>{
+//     res.send(error)
+//   })
+//   }
+
+
+const del = function (req, res) {
+  const del= model.wishlist.destroy({includes:{model:model.product,where:{productProdId:req.params.id},where:{userUserId:req.params.userid}}}).then((result)=>{
     res.json(result)
   })
   .catch((error)=>{
@@ -43,6 +67,9 @@ const del = function (req, res) {
 
 
 
+  
 
 
-  module.exports={getAll,add,del}
+
+
+  module.exports={getAll,add,del,getonewish}

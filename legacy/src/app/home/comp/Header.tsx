@@ -43,7 +43,7 @@ const Header = () => {
                 </div>
                 <div className="flex items-center md:order-2 md:space-x-4">
                     <a href="/whishList">    <img className="w-6 h-6 " /*src={wish}*/ alt=""/>  </a>
-                    <a href="/cartProduct"> <img className="w-6 h-6" /*src={cart}*/ alt="" /></a>
+                    <a href="/cart"> <img className="w-6 h-6" /*src={cart}*/ alt="" /></a>
                     <DropDown/> 
                     </div>
                     

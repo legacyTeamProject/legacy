@@ -11,19 +11,20 @@ import Typography from '@mui/material/Typography';
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useSearchParams } from 'next/navigation'
 
 interface Product {
+  prodId: number;
+  name: string;
+  price: number;
+  file: string;
+  description:string;
+rating:number;
+quantity:number;
+sold:number;
 
-    prodId: number;
-    name: string;
-    price: number;
-    file: string;
-    description:string;
-    sold:number;
-    quantity:number;
-    idWishList :number
-  }
+
+}
 
 const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
     const stars = Array.from({ length: 5 }, (_, index) => (
@@ -33,52 +34,45 @@ const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
     return <div>{stars}</div>;
 };
 
-export default function WishList() {
-  const [wishes, setWishes] = useState<Product[]>([]);
-
+export default function subs(props:any) {
+  const [prod, setProd] = useState<Product[]>([]);
+  const searchParams = useSearchParams()
+  
+  const catId = searchParams.get('catId')
+  console.log(catId, "teswt");
+  
   useEffect(() => {
-    async function fetchData(id:number) {
+    async function fetchData(catid:number,proid:number) {
       try {
-        const response = await axios.get(`http://localhost:3000/wish/getOne/${id}`);
-        setWishes(response.data)
-        console.log(response.data);
-        ;
+        const response = await axios.get(`http://localhost:3000/category/catprodz/${catid}/${proid}`);
+        setProd(response.data);
       } catch (error) {
         console.error(error);
       }
     }
     
-    fetchData(1);
+    fetchData(catId,props.params.subs);
   }, []);
 
-  const deleted = async (idWishlist: number,userid:number) => {
-    try {
-      await axios.delete(`http://localhost:3000/wish/delete/${idWishlist}/${userid}`);
-      console.log('deleted fav');
-      
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
 
   return (
     <main>
       <div style={{ width: '100%', height: '100vh', borderTop: '1px solid black' }}>
         <div style={{ width: '100%', display: 'flex' }}>
-          <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>wishlist({wishes.length})</h1>
+          <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>({prod.length})</h1>
         </div>
 
         <div style={{ width: '100%', margin: 'auto', marginTop: 10 }}>
-          {wishes.map((e) => (
+          {prod.map((e) => (
             <Card
-              key={e.idWishList} 
+              key={e.name} 
               sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
             >
               <CardMedia component="img" height="160px" image={e.file} alt="Product" />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   {e.name} - {e.price}
-                  azerty
                   <ReviewIcon rating={4} />
                 </Typography>
               </CardContent>
@@ -95,7 +89,6 @@ export default function WishList() {
               >
                 ADD TO THE CART
               </Button>
-              <DeleteIcon  onClick={() => deleted(e.prodId,1)} />
             </Card>
           ))}
         </div>

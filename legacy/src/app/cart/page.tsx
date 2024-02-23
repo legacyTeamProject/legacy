@@ -4,10 +4,13 @@ import axios from 'axios';
 import Cloudzz from '../home/comp/Cloudzz';
 
 interface CartItem {
-  idCart: number;
+  prodId: number;
   name: string;
   price: number;
   file: string;
+  description:string;
+  sold:number;
+  quantity:number
 }
 
 const CartProduct: React.FC = () => {
@@ -39,14 +42,11 @@ const CartProduct: React.FC = () => {
     }
   };
 
-  const deleteProduct = async (prodId: number) => {
-    try {
-      await axios.delete(`http://localhost:3000/cartt/deletprod/:${prodId}`);
-      console.log("Deleted from your cart");
-      console.log(prodId)
-    } catch (err) {
-      console.error(err);
-    }
+  const deleteProduct = async (prod: number,id:number) => {
+      
+      await axios.delete(`http://localhost:3000/cartt/deletprod/${prod}/${id}`)
+      .then((res)=>console.log(res))
+      .catch((err)=>{console.log(err)})
   };
 
   return (
@@ -69,7 +69,7 @@ const CartProduct: React.FC = () => {
                   </thead>
                   <tbody>
                     {cart.map((item) => (
-                      <tr key={item.idCart}>
+                      <tr key={item.prodId}>
                         <td className="py-4">
                           <div className="flex items-center">
                             <img className="h-16 w-16 mr-4" src={item.file} alt="Product image" />
@@ -96,7 +96,7 @@ const CartProduct: React.FC = () => {
                         </td>
                         <td className="py-4">{item.price * quantity}</td>
                         <td className="py-4">
-                          <button className="text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center" onClick={() => deleteProduct(item.prodId)}>Remove</button>
+                          <button className="text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center" onClick={() =>{ deleteProduct(item.prodId,1)}}>Remove</button>
                         </td>
                       </tr>
                     ))}
