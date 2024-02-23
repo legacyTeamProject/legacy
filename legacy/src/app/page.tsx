@@ -20,8 +20,10 @@ const Home = () => {
     <>
     <div className="flex w-4/5 mt-20">
       <ul className="flex flex-col w-80 max-w-[400px] mx-20 mt-0">
+     
+     
       <li >
-          <a href="/category/1">jjjjjj</a>
+          <a href="/category/${cat.id}">jjjjjj</a>
         </li>
         <li >
           <a href="/category/2">jjjjjj</a>
