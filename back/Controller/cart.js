@@ -50,7 +50,7 @@ const getAll = function (req, res) {
     })
     }
     const delet = function (req, res) {
-      const user=  model.cart.destroy({where:{productProdId:req.params.id}}).then((result)=>{
+      const user=  model.cart.destroy({where:{productProdId:req.params.prodid, userUserId: req.params.userId}}).then(()=>{
         res.json(user)
       })
       .catch((error)=>{
