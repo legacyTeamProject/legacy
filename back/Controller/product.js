@@ -93,8 +93,29 @@ const UpdatePro = async(req,res) => {
         catch (error) {res.send(error)} 
     } 
 
+    const rating = async (req,res) => {
+        try {
+          
+          const ratings = await model.rate.findAll({
+            where: { productProdId: req.params.id }
+          });
+      
+          
+          const sumOfRatings = ratings.reduce((total, rating) => total + rating.rate, 0);
+      
+          
+          const averageRating = sumOfRatings / ratings.length;
+      
+          res.json( averageRating);
+        } catch (error) {
+          console.error("Error calculating average rating:", error);
+          throw error;
+        }
+      };
+      
 
 
-module.exports={AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser,AddProimg,getProimg ,UpdateRating,updateSellerProd}
+
+module.exports={AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser,AddProimg,getProimg ,UpdateRating,updateSellerProd,rating}
 
 
