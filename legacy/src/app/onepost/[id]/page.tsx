@@ -168,7 +168,7 @@ function ProductDetails(props: any) {
                                 <Button
                                     variant='outlined'
                                     sx={{ color: 'black' }}
-                                    onClick={() => addCart({ userUserId: 1, productProdId: props.params.id, CartQuantity: 1 })}
+                                    onClick={() => addCart({ userUserId:  1, productProdId: props.params.id, CartQuantity: 1 })}
                                 >
                                     ADD TO THE CART
                                 </Button>
