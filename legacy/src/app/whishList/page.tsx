@@ -53,18 +53,28 @@ export default function WishList() {
       }
     }
     
-    fetchData(1);
+    fetchData(2);
   }, [refresh]);
 
   const deleted = async (idWishlist: number,userid:number) => {
     try {
       await axios.delete(`http://localhost:3000/wish/delete/${idWishlist}/${userid}`);
       console.log('deleted fav');
+      setrefresh(!refresh)
       
     } catch (error) {
       console.error(error);
     }
   };
+
+  const addCart = async (obj: {}) => {
+    try {
+        await axios.post(`http://localhost:3000/cartt/addOne`, obj);
+        console.log("Item added to cart");
+    } catch (err) {
+        console.log(err);
+    }
+};
 
   return (
     <main>
@@ -79,8 +89,14 @@ export default function WishList() {
               key={e.idWishList} 
               sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
             >
-              <CardMedia component="img" height="160px" image={e.file} alt="Product" />
+              <CardMedia
+                  component="img"
+                  sx={{height:150}}
+                  image={e.file}
+                  alt="Product"
+                />
               <CardContent>
+
                 <Typography variant="body2" color="text.secondary">
                   {e.name} - {e.price}
                   
@@ -93,14 +109,14 @@ export default function WishList() {
                 </IconButton>
               </CardActions>
               <Button
-                onClick={() => {}} 
+                onClick={() => { addCart({ userUserId:  1, productProdId: e.prodId, CartQuantity: 1 })}}
                 sx={{ marginLeft: 20, marginTop: 5, backgroundColor: 'black', width: 'auto' }}
-                variant="contained"
+                variant="outlined"
                 disableElevation
               >
                 ADD TO THE CART
               </Button>
-              <DeleteIcon  onClick={() => deleted(e.prodId,1)} />
+              <DeleteIcon  onClick={() => deleted(e.prodId,2)} />
             </Card>
           ))}
         </div>

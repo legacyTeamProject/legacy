@@ -81,15 +81,28 @@ const add = function (req, res) {
 //   })
 //   }
 
+// const del= model.wishlist.destroy({includes:{model:model.product,where:{productProdId:req.params.id},where:{userUserId:req.params.userid}}}).then((result)=>{
+//   res.json(result)
+// })
+// .catch((error)=>{
+//   res.send(error)
+// })
+// }
 
 const del = function (req, res) {
-  const del= model.wishlist.destroy({includes:{model:model.product,where:{productProdId:req.params.id},where:{userUserId:req.params.userid}}}).then((result)=>{
-    res.json(result)
-  })
-  .catch((error)=>{
-    res.send(error)
-  })
-  }
+
+  model.wishlist.destroy({
+    where: {
+      productProdId: req.params.id,
+      userUserId: req.params.userid
+    }
+  }).then((result) => {
+    res.json(result);
+  }).catch((error) => {
+    console.error("Error deleting entry from wishlist:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  });
+}
 
 
 
