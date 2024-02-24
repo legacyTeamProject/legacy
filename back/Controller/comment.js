@@ -13,6 +13,15 @@ const AllComments = async(req,res) => {
 };
 
 
+const OneComments = async(req,res) => {
+  try {
+  const result=await model.comments.findAll({where:{productProdId:req.params.id}});
+  res.json(result) }
+   catch (error) {res.send(error) }
+};
+
+
+
 const addComment = async (req, res) => {
     try{
     const add= await model.comments.create(req.body).then((result)=>{
@@ -40,4 +49,4 @@ const addComment = async (req, res) => {
     }
 
 
-    module.exports={AllComments,updateComment,addComment,deleteComment}
+    module.exports={AllComments,updateComment,addComment,deleteComment,OneComments}

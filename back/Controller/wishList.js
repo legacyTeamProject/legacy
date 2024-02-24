@@ -14,13 +14,39 @@ const getAll = function (req, res) {
 
 
   
-const getonewish = function (req, res) {
-  const get= model.product.findAll({includes:{model:model.wishlist, where:{userUserId:req.params.id}}}).then((result)=>{
-    res.status(201).send(result)
-  })
-  .catch((error)=>{
-    res.send(error)
-  })
+// const getonewish = function (req, res) {
+//   const get= model.product.findAll({includes:{model:model.wishlist, where:{userUserId:req.params.id}}}).then((result)=>{
+//     res.status(201).send(result)
+//   })
+//   .catch((error)=>{
+//     res.send(error)
+//   })
+//   }
+
+  const getonewish = async function (req, res) {
+    try {
+      const ids = await model.wishlist.findAll({
+        where: { userUserId: req.params.id }
+      });
+  
+      
+      const productPromises = ids.map(async (el) => {
+        return await model.product.findAll({
+          where: { prodId: el.productProdId }
+        });
+      });
+  
+      
+      const prods = await Promise.all(productPromises);
+  
+    
+      const flattenedProds = prods.flat();
+  
+      res.json(flattenedProds);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 
 
