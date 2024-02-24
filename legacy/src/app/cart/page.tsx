@@ -20,7 +20,7 @@ const CartProduct: React.FC = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const res = await axios.get<CartItem[]>('http://localhost:3000/cartt/getUserc/1');
+        const res = await axios.get('http://localhost:3000/cartt/getUserc/1');
         setCart(res.data);
         console.log(res.data);
         

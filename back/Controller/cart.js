@@ -20,16 +20,44 @@ const getAll = function (req, res) {
              })
              }
 
-             const getByUserIdcart= function (req, res) {
-              model.product.findAll({includes:{model:model.cart, where:{userUserId:req.params.id}}}).then((result)=>{
-                 res.json(result)
-               })
-               .catch((error)=>{
-                 res.send(error)
-               })
-               }
+             const getByUserIdcart = async function (req, res) {
+              try {
+                const ids = await model.cart.findAll({
+                  where: { userUserId: req.params.id }
+                });
+            
+                // Map over ids and create an array of promises for product queries
+                const productPromises = ids.map(async (el) => {
+                  return await model.product.findAll({
+                    where: { prodId: el.productProdId }
+                  });
+                });
+            
+                // Wait for all product queries to finish
+                const prods = await Promise.all(productPromises);
+            
+                // Flatten the array of arrays into a single array of products
+                const flattenedProds = prods.flat();
+            
+                res.json(flattenedProds);
+              } catch (err) {
+                console.log(err);
+                res.status(500).json({ error: "Internal server error" });
+              }
+            }
+            
 
 
+
+
+              //  const getByUserIdcart= async function (req, res) {
+              //  model.product.findAll({includes:{model:model.cart, where:{userUserId:req.params.id}}}).then((result)=>{
+              //      res.json(result)
+              //    })
+              //    .catch((error)=>{
+              //      res.send(error)
+              //    })
+              //   }
 
 
   const add = function (req, res) {
