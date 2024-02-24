@@ -31,6 +31,7 @@ function ProductDetails(props: any) {
     const [prod, setProd] = useState<ProductDetailsProps>();
     const [images, setImages] = useState<Images[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
+    const [rating, setrating] = useState(0);
 
     useEffect(() => {
         const fetchProduct = async (id: any) => {
@@ -42,7 +43,7 @@ function ProductDetails(props: any) {
             }
         };
 
-        fetchProduct(1);
+        fetchProduct(props.params.id);
     }, []);
 
     useEffect(() => {
@@ -55,7 +56,7 @@ function ProductDetails(props: any) {
             }
         };
 
-        getImages(1);
+        getImages(props.params.id);
     }, []);
 
     const addCart = async (obj: {}) => {
@@ -79,6 +80,26 @@ function ProductDetails(props: any) {
 
         getComments(props.params.id);
     }, [props.params.id]);
+
+
+    useEffect(() => {
+        const getRating = async (id: any) => {
+            try {
+                const res = await axios.get(`http://localhost:3000/apii/getrating/${id}`);
+                setrating(res.data)
+                console.log(res);
+                ;
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        getRating(props.params.id);
+    }, [props.params.id]);
+
+
+
+    http://localhost:3000/apii/getrating/1
 
     return (
         <div>
@@ -105,7 +126,7 @@ function ProductDetails(props: any) {
                             <div className="flex items-center mt-2.5 mb-5">
                                 <div className="flex items-center space-x-1 rtl:space-x-reverse">
                                     Rating:
-                                    {/* You can render star icons here based on the product's rating */}
+                                    {rating}
                                 </div>
                             </div>
                             <h1>Comments:</h1>
