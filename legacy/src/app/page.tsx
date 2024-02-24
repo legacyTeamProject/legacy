@@ -1,14 +1,40 @@
 'use client'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import MonthProduct from './home/comp/MonthProduct'
 import Categories from './home/comp/Categories'
-
-
-
+import axios from 'axios'
+import Link from 'next/link'
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import OurProducts from './home/comp/OurProducts'
+interface Category{
+  catId:number;
+  content:string
+}
 const Home = () => {
-
-
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
+const [category,setCategory]=useState<Category[]>([])
+useEffect(
+  ()=>{
+ async function ftch() {
+  try{
+    await axios.get('http://localhost:3000/category/getAll')
+    .then((res)=>setCategory(res.data))
+       }catch(err){console.log(err)}
+ }
+ ftch()
+  },[]
+)
 
 
 
@@ -21,42 +47,45 @@ const Home = () => {
     <div className="flex w-4/5 mt-20">
       <ul className="flex flex-col w-80 max-w-[400px] mx-20 mt-0">
      
-     
-      <li >
-          <a href="/category/${cat.id}">jjjjjj</a>
+     {category.map((el,i)=>(
+      
+      <li key={i}>
+          <Link href={`/category/${el.catId}`}
+          >
+            {el.content}
+          </Link>
         </li>
-        <li >
-          <a href="/category/2">jjjjjj</a>
-        </li>
-        <li >
-          <a href="/category/3">jjjjjj</a>
-        </li>
-        <li >
-          <a href="/category/4">jjjjjj</a>
-        </li>
-
-
-       
+     ))}
+        
       </ul>
       <div className="overflow-hidden relative w-[900px] mt-0 h-[400px] ">
-        <div className="flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-          {/* {images.map((image, index) => (
-            <img key={index} src={image} alt={`Slide ${index}`} className="w-full" />
-          ))} */}
-        </div>
-        <div className="flex justify-center gap-3 w-full absolute bottom-3">
-          {/* {images.map((_, index) => (
-            <button key={index} className={`rounded-full w-3 h-3 cursor-pointer bg-gray-500 focus:outline-none ${index === currentIndex ? 'bg-gray-900' : ''}`} onClick={() => setCurrentIndex(index)}></button>
-          ))} */}
-        </div>
+      <Slider
+              {...settings}
+              style={{ width: '70%', margin:'auto', marginTop: 10,height:500 }}
+            >
+              <div>
+                <img
+                  src="https://ima-school.com/wp-content/uploads/2023/02/LOGO-IMA.png"
+                  alt="Slide 1"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+              <div>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/fr/5/51/Logo_Inter_mutuelles_assistance.png"
+                  alt="Slide 2"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+            </Slider>
       </div>
-      <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-        <button className="rounded-full w-5 h-5 cursor-pointer bg-white" ></button>
-        <button className="rounded-full w-5 h-5 cursor-pointer bg-white" ></button>
-      </div>       
+           
 
     </div>
-    <Categories  />
+
+    <Categories />
+
+    <OurProducts/>
     <MonthProduct  />
     </>
   

@@ -12,7 +12,7 @@ const MonthProduct = () => {
         axios.get("http://localhost:3000/apii/getAll")
             .then((response) => {
                 console.log('Data from rating:', response.data);
-                const filteredProducts = response.data.filter(product => product.ratings >= 4);
+                const filteredProducts = response.data.filter(product => product.sold >= 4);
                 setProducts(filteredProducts);
             })
             .catch((error) => {
@@ -35,7 +35,7 @@ const MonthProduct = () => {
 
 
                     <div className="h-48 overflow-hidden mb-2">
-                        <img src={product.file} alt={product.name} className="w-full h-full object-cover" onClick={() =>{navigate("/Details",{product:product}); func1(product) }} />
+                        <img src={product.file} alt={product.name} className="w-full h-full object-cover"  />
                     </div>
 
 
