@@ -77,7 +77,8 @@ export default function WishList() {
 };
 
   return (
-    <main>
+    <main className="wishlist-container">
+
       <div style={{ width: '100%', height: '100vh', borderTop: '1px solid black' }}>
         <div style={{ width: '100%', display: 'flex' }}>
           <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>wishlist({wishes.length})</h1>
@@ -95,6 +96,7 @@ export default function WishList() {
                   image={e.file}
                   alt="Product"
                 />
+
               <CardContent>
 
                 <Typography variant="body2" color="text.secondary">
