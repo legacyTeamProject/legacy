@@ -79,7 +79,7 @@ module.exports ={
     },
     getOneCategory : async(req,res)=>{
         try{
-            const category=await model.category.findOne({where:{catId:req.params.catId}})
+            const category=await model.category.findOne({where:{catId:+req.params.catId}})
             res.json(category)
         }
         catch (error) {res.send(error) }
