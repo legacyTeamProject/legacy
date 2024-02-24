@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Categories = () => {
   return (
-    <div className="relative w-4/5 mt-20 p-8 mx-auto">
+    <div className="relative w-4/5 mt-20 p-8 mx-auto" style={{marginTop:20}}>
       <div className="gap-20">
         <div className="flex mt-2 gap-6">
           <h1 className="text-red-500 font-bold text-xl">Categories</h1>

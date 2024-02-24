@@ -67,18 +67,20 @@ export default function WishList() {
   };
 
   return (
-    <main>
+    <main className="wishlist-container">
+
       <div style={{ width: '100%', height: '100vh', borderTop: '1px solid black' }}>
         <div style={{ width: '100%', display: 'flex' }}>
           <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>wishlist({wishes.length})</h1>
         </div>
 
-        <div style={{ width: '100%', margin: 'auto', marginTop: 10 }}>
-          {wishes.map((e) => (
-            <Card
-              key={e.idWishList} 
-              sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
-            >
+        <div style={{ width: '100%', margin: 'auto', marginTop: 10 }} className="card-animation">
+          {wishes.map((e,i) => (
+             <Card
+             key={e.idWishList}
+             className= 'card-fixed'
+             sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
+           >
               <CardMedia component="img" height="160px" image={e.file} alt="Product" />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">

@@ -26,11 +26,12 @@ interface Product {
   idWishList :number
 }
 const [prod,setProd]=useState<Product[]>([])
-    useEffect(
-      ()=>{
+
+
+  useEffect(()=>{
          async function ftch(){
-          await axios.get('http://localhost:3000/apii/getAll')
-          .then((res)=>{setProd(res.data.splice(7))})
+          await axios.get('http://localhost:3000/apii/product')
+          .then((res)=>{setProd(res.data)})
         }
         ftch()
       },[]
@@ -41,7 +42,14 @@ const [prod,setProd]=useState<Product[]>([])
 .then().catch((err)=>{console.log(err)})
     }
 
-
+    const addtowish = async(obj:{})=>{
+      await axios.post('http://localhost:3000/wish/add',obj).then((res)=>{
+         console.log(res.data);
+      })
+    .catch((error)=>{
+      console.log(error);
+    })
+    }
 
     const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
       const stars = Array.from({ length: 5 }, (_, index) => (
@@ -52,7 +60,7 @@ const [prod,setProd]=useState<Product[]>([])
   };
   
   return (
-    <div className="relative w-4/5 mt-20 mx-auto">
+    <div className="relative w-4/5 mt-20 mx-auto" style={{width:'100%',marginTop:10}}>
         <div className="gap-20">
             <div className="flex mt-2 gap-8">
                 <h1 className="text-red-500 font-bold text-xl	">Our Products</h1>
@@ -61,7 +69,7 @@ const [prod,setProd]=useState<Product[]>([])
             {prod.map((e,i) => (
             <Card
               key={i} 
-              sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
+              sx={{ width: 200, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
             >
               <CardMedia component="img" height="160px" image={e.file} alt="Product" />
               <CardContent>
@@ -72,14 +80,14 @@ const [prod,setProd]=useState<Product[]>([])
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
+                <IconButton  aria-label="add to favorites">
+                  <FavoriteIcon onClick={()=>{addtowish({UserUserId:1,productProdId:e.prodId})}}/>
                 </IconButton>
               </CardActions>
               <Button
                 onClick={() => {add({ userUserId:  1, productProdId: e.prodId, CartQuantity: 1 })}} 
-                sx={{ marginLeft: 20, marginTop: 5, backgroundColor: 'black', width: 'auto' }}
-                variant="contained"
+                sx={{ marginLeft: 2, marginTop: 5, backgroundColor: 'black', width: 'auto' }}
+                variant="outlined"
                 disableElevation
               >
                 ADD TO THE CART
