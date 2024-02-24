@@ -13,7 +13,6 @@ const Home = () => {
         const response = await fetch('http://localhost:3000/category/getAll');
         const data = await response.json();
         setCategories(data);
-        console.log(data, 'this');
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
