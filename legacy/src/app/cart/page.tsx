@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cloudzz from '../home/comp/Cloudzz';
-
+////////
 interface CartItem {
   prodId: number;
   name: string;
@@ -12,10 +12,14 @@ interface CartItem {
   sold:number;
   quantity:number
 }
+interface refresh {
+
+}
 
 const CartProduct: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [refresh,setrefresh]= useState(false)
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -30,7 +34,7 @@ const CartProduct: React.FC = () => {
       }
     };
     fetchCartData();
-  }, []);
+  }, [refresh]);
 
   const incrementQuantity = () => {
     setQuantity(prevQuantity => prevQuantity + 1);
@@ -45,7 +49,8 @@ const CartProduct: React.FC = () => {
   const deleteProduct = async (prod: number,id:number) => {
       
       await axios.delete(`http://localhost:3000/cartt/deletprod/${prod}/${id}`)
-      .then((res)=>console.log(res))
+      .then((res)=>{console.log(res),
+      setrefresh(!refresh)})
       .catch((err)=>{console.log(err)})
   };
 
