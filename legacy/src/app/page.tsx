@@ -1,4 +1,5 @@
 'use client'
+
 import React, {useEffect, useState} from 'react'
 
 import MonthProduct from './home/comp/MonthProduct'
@@ -38,10 +39,7 @@ useEffect(
 
 
 
- 
-  const [currentIndex, setCurrentIndex] = useState(0);
 
- 
   return (
     <>
     <div className="flex w-4/5 mt-20">
@@ -80,8 +78,8 @@ useEffect(
             </Slider>
       </div>
            
+   
 
-    </div>
 
     <Categories />
 
@@ -89,14 +87,8 @@ useEffect(
     <MonthProduct  />
     </>
   
+
   )
-}
+};
 
-export default Home
-
-
-
-          
-         
-          
-          
+export default Home;

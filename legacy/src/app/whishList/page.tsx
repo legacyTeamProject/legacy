@@ -24,7 +24,11 @@ interface Product {
     quantity:number;
     idWishList :number
   }
+  interface refresh{
 
+  }
+
+ 
 const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
     const stars = Array.from({ length: 5 }, (_, index) => (
       <StarIcon key={index} color={index < rating ? 'warning' : 'disabled'} />
@@ -35,6 +39,7 @@ const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
 
 export default function WishList() {
   const [wishes, setWishes] = useState<Product[]>([]);
+  const [refresh,setrefresh]= useState(false)
 
   useEffect(() => {
     async function fetchData(id:number) {
@@ -49,7 +54,7 @@ export default function WishList() {
     }
     
     fetchData(1);
-  }, []);
+  }, [refresh]);
 
   const deleted = async (idWishlist: number,userid:number) => {
     try {
@@ -78,7 +83,7 @@ export default function WishList() {
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   {e.name} - {e.price}
-                  azerty
+                  
                   <ReviewIcon rating={4} />
                 </Typography>
               </CardContent>
