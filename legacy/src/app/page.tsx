@@ -1,73 +1,63 @@
 'use client'
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react';
 
-import MonthProduct from './home/comp/MonthProduct'
-import Categories from './home/comp/Categories'
-
-
+import MonthProduct from './home/comp/MonthProduct';
+import Categories from './home/comp/Categories';
 
 const Home = () => {
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/category/getAll');
+        const data = await response.json();
+        setCategories(data);
+        console.log(data, 'this');
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
 
+    fetchData();
+  }, []);
 
+  console.log(categories);
 
-
- 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
- 
   return (
-    <>
-    <div className="flex w-4/5 mt-20">
-      <ul className="flex flex-col w-80 max-w-[400px] mx-20 mt-0">
-     
-     
-      <li >
-          <a href="/category/${cat.id}">jjjjjj</a>
-        </li>
-        <li >
-          <a href="/category/2">jjjjjj</a>
-        </li>
-        <li >
-          <a href="/category/3">jjjjjj</a>
-        </li>
-        <li >
-          <a href="/category/4">jjjjjj</a>
-        </li>
-
-
-       
-      </ul>
-      <div className="overflow-hidden relative w-[900px] mt-0 h-[400px] ">
-        <div className="flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-          {/* {images.map((image, index) => (
-            <img key={index} src={image} alt={`Slide ${index}`} className="w-full" />
-          ))} */}
-        </div>
-        <div className="flex justify-center gap-3 w-full absolute bottom-3">
-          {/* {images.map((_, index) => (
-            <button key={index} className={`rounded-full w-3 h-3 cursor-pointer bg-gray-500 focus:outline-none ${index === currentIndex ? 'bg-gray-900' : ''}`} onClick={() => setCurrentIndex(index)}></button>
-          ))} */}
-        </div>
+    <div className="flex mt-20">
+      <div className="flex flex-col w-1/5 max-w-[200px] mx-5">
+        <ul className="mt-0">
+          {categories.map((cat) => (
+            <li key={cat.id}>
+              <details className="group">
+                <summary className="flex items-center justify-between gap-5 font-medium marker:content-none hover:cursor-pointer">
+                  <a href="">{cat.content}</a>
+                  <svg
+                    className="w-5 h-5 text-gray-500 transition group-open:rotate-90"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                    ></path>
+                  </svg>
+                </summary>
+              </details>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="absolute bottom-0 py-4 flex justify-center gap-3 w-full">
-        <button className="rounded-full w-5 h-5 cursor-pointer bg-white" ></button>
-        <button className="rounded-full w-5 h-5 cursor-pointer bg-white" ></button>
-      </div>       
 
+      <div className="flex w-4/5">
+        {/* Your existing content */}
+        {/* You can place your existing content here or modify it accordingly */}
+      </div>
     </div>
-    <Categories  />
-    <MonthProduct  />
-    </>
-  
   )
-}
+};
 
-export default Home
-
-
-
-          
-         
-          
-          
+export default Home;
