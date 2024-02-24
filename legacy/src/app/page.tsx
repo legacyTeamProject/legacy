@@ -1,62 +1,93 @@
 'use client'
-import React, { useState, useEffect } from 'react';
 
-import MonthProduct from './home/comp/MonthProduct';
-import Categories from './home/comp/Categories';
+import React, {useEffect, useState} from 'react'
 
+import MonthProduct from './home/comp/MonthProduct'
+import Categories from './home/comp/Categories'
+import axios from 'axios'
+import Link from 'next/link'
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import OurProducts from './home/comp/OurProducts'
+interface Category{
+  catId:number;
+  content:string
+}
 const Home = () => {
-  const [categories, setCategories] = useState([]);
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
+const [category,setCategory]=useState<Category[]>([])
+useEffect(
+  ()=>{
+ async function ftch() {
+  try{
+    await axios.get('http://localhost:3000/category/getAll')
+    .then((res)=>setCategory(res.data))
+       }catch(err){console.log(err)}
+ }
+ ftch()
+  },[]
+)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/category/getAll');
-        const data = await response.json();
-        setCategories(data);
-        console.log(data, 'this');
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
 
-    fetchData();
-  }, []);
 
-  console.log(categories);
 
   return (
-    <div className="flex mt-20">
-      <div className="flex flex-col w-1/5 max-w-[200px] mx-5">
-        <ul className="mt-0">
-          {categories.map((cat) => (
-            <li key={cat.id}>
-              <details className="group">
-                <summary className="flex items-center justify-between gap-5 font-medium marker:content-none hover:cursor-pointer">
-                  <a href="">{cat.content}</a>
-                  <svg
-                    className="w-5 h-5 text-gray-500 transition group-open:rotate-90"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
-                    ></path>
-                  </svg>
-                </summary>
-              </details>
-            </li>
-          ))}
-        </ul>
+    <>
+    <div className="flex w-4/5 mt-20">
+      <ul className="flex flex-col w-80 max-w-[400px] mx-20 mt-0">
+     
+     {category.map((el,i)=>(
+      
+      <li key={i}>
+          <Link href={`/category/${el.catId}`}
+          >
+            {el.content}
+          </Link>
+        </li>
+     ))}
+        
+      </ul>
+      <div className="overflow-hidden relative w-[900px] mt-0 h-[400px] ">
+      <Slider
+              {...settings}
+              style={{ width: '70%', margin:'auto', marginTop: 10,height:500 }}
+            >
+              <div>
+                <img
+                  src="https://ima-school.com/wp-content/uploads/2023/02/LOGO-IMA.png"
+                  alt="Slide 1"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+              <div>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/fr/5/51/Logo_Inter_mutuelles_assistance.png"
+                  alt="Slide 2"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+            </Slider>
       </div>
+           
+   
 
-      <div className="flex w-4/5">
-        {/* Your existing content */}
-        {/* You can place your existing content here or modify it accordingly */}
-      </div>
-    </div>
+
+    <Categories />
+
+    <OurProducts/>
+    <MonthProduct  />
+    </>
+  
+
   )
 };
 
