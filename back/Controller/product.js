@@ -1,5 +1,6 @@
 const {Product} = require('../Models/Product.js')
 const {} = require('../Models/Image.js')
+const { Op } = require('sequelize');
 const connection=require("../Connection")
 const model = connection.models
 
@@ -32,6 +33,20 @@ const GetOneByUser=async(req,res) => {
     const result=await model.product.findAll({where:{userUserId:req.params.id}})
     res.json(result)}
     catch (error) { res.send(error)}
+}
+
+
+
+
+
+const GetOneByrate = async (req, res) => {
+    try {
+        const result = await model.product.findAll({
+            where: {ratings: {[Op.gte]: req.params.rate }}});
+            res.status(200).json(result)
+    } catch (error) {
+        res.send(error);
+    }
 }
 
 const AddPro = async(req,res) => {
@@ -116,6 +131,6 @@ const UpdatePro = async(req,res) => {
 
 
 
-module.exports={AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser,AddProimg,getProimg ,UpdateRating,updateSellerProd,rating}
+module.exports={AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser,AddProimg,getProimg ,UpdateRating,updateSellerProd,rating,GetOneByrate}
 
 

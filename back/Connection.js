@@ -12,7 +12,7 @@ const {commentschema}=require('./Models/comments')
 
 const {payschema}=require('./Models/payment')
 
-const connection = new Sequelize('ecommerce', 'root', 'Me.inSql@Rbk', {
+const connection = new Sequelize('ecommerce', 'root', 'root', {
     host:'localhost',
     dialect:'mysql'
 })
