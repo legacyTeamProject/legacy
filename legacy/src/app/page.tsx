@@ -33,6 +33,8 @@ const Home = () => {
       try {
         const response = await axios.get('http://localhost:3000/category/getAll')
         setCategory(response.data)
+        
+        
       } catch (err) {
         console.log(err)
       }
@@ -84,6 +86,7 @@ const Home = () => {
       </div>
 </div>
      <div style={{width:'80%',margin:'auto',marginTop:10}}>
+
      <Categories />
       <OurProducts />
       <MonthProduct />

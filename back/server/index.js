@@ -6,6 +6,7 @@ const con=require('../Connection')
 // const User = require('../database/Models/User')
 const PORT = 3000
 const app = express()
+
 const productRouter =require('./Routes/products')
 
 const clientRouter=require('./Routes/ClientRoute')
@@ -25,21 +26,14 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
 
 app.use("/apii",productRouter)
-
-app.use("/client", clientRouter)
-
+app.use("/client/get/:id", clientRouter)
 app.use("/auth",authrouter)
-
 app.use("/wish",wishrouter)
-
 app.use('/category',categoryRouter)
-
 app.use('/img',ImageRouter)
-
-app.use('/cartt', cartRouter)
-app.use('/comment', commentRouter)
-
-app.use('/api',paymentRouter)
+app.use('/cartt',cartRouter)
+app.use('/comment',commentRouter)
+app.use('/payment',paymentRouter)
 
 // connection.sync({alter: true})
 connection.sync()

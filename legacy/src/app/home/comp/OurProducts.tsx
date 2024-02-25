@@ -77,6 +77,7 @@ const [prod,setProd]=useState<Product[]>([])
                   {e.name} - {e.price}
                   azerty
                   <ReviewIcon rating={4} />
+                
                 </Typography>
               </CardContent>
               <CardActions disableSpacing>
