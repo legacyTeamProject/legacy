@@ -7,7 +7,7 @@ import linkedin from '../assets/linkedin.png'
 const Footer = () => {
   return (
     <div>
-      <footer className="p-6 bg-black text-white  mb-auto " >
+      <footer className="p-6 bg-black text-white  mb-auto " style={{marginTop:10}} >
 	<div className="container grid grid-cols-2 mx-auto gap-x-3 gap-y-8 sm:grid-cols-3 md:grid-cols-5">
 		<div className="flex flex-col space-y-6">
 			<h2 className="font-medium">Exclusive</h2>

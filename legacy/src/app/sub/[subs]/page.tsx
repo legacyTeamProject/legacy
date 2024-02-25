@@ -22,6 +22,7 @@ interface Product {
 rating:number;
 quantity:number;
 sold:number;
+ratings:number
 
 
 }
@@ -42,7 +43,7 @@ export default function subs(props:any) {
   console.log(catId, "teswt");
   
   useEffect(() => {
-    async function fetchData(catid:number,proid:number) {
+    async function fetchData(catid:any,proid:number) {
       try {
         const response = await axios.get(`http://localhost:3000/category/catprodz/${catid}/${proid}`);
         setProd(response.data);
@@ -55,6 +56,27 @@ export default function subs(props:any) {
   }, []);
 
   
+  const addToCart = async (productId:any) => {
+    try {
+      await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
+  const addToWishList = async (productId:any) => {
+    try {
+      const response = await axios.post('http://localhost:3000/wish/add', { UserUserId: 1, productProdId: productId });
+      console.log('Added to wishlist:', response.data);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+    }
+  };
+  const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
+    const stars = Array.from({ length: 5 }, (_, index) => (
+      <StarIcon key={index} color={index < rating ? 'warning' : 'disabled'} />
+    ));}
+  
 
   return (
     <main>
@@ -63,33 +85,29 @@ export default function subs(props:any) {
           <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>({prod.length})</h1>
         </div>
 
-        <div style={{ width: '100%', margin: 'auto', marginTop: 10 }}>
-          {prod.map((e) => (
-            <Card
-              key={e.name} 
-              sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
-            >
-              <CardMedia component="img" height="160px" image={e.file} alt="Product" />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {e.name} - {e.price}
-                  <ReviewIcon rating={4} />
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
-              </CardActions>
+        <div style={{ width: '100%', margin: 'auto', marginTop: 10,display:'flex',flexWrap:'wrap' }}>
+          {prod.map((product,i) => (
+            <Card key={i} sx={{ width: 250, boxShadow: 4,marginLeft:5 }}>
+            <CardMedia component="img" height="150" image={product.file} alt={product.name} />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                {product.name} - ${product.price}
+                <ReviewIcon rating={product.ratings}/>
+              </Typography>
+            </CardContent>
+            <CardActions style={{ justifyContent: 'space-between' }}>
+              <IconButton aria-label="add to favorites" onClick={() => addToWishList(product.prodId)}>
+                <FavoriteIcon />
+              </IconButton>
               <Button
-                onClick={() => {}} 
-                sx={{ marginLeft: 20, marginTop: 5, backgroundColor: 'black', width: 'auto' }}
+                onClick={() => addToCart(product.prodId)}
+                sx={{ backgroundColor: 'black', color: 'black' }}
                 variant="contained"
-                disableElevation
               >
-                ADD TO THE CART
+                ADD TO CART
               </Button>
-            </Card>
+            </CardActions>
+          </Card>
           ))}
         </div>
       </div>

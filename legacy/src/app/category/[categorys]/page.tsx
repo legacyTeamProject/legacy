@@ -3,12 +3,9 @@
 
 import React ,{useState,useEffect}from "react"
 import axios from "axios";
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import Link from "next/link";
+import StarIcon from '@mui/icons-material/Star';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -18,53 +15,74 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 interface ProductDetailsProps {
-    prodId: Number;
-    name: String;
-    description: String;
-    price: Number;
-    ratings: Number;
-    file: String;
-    sold: Number;
-    quantity: Number;
+    prodId: number;
+    name: string;
+    description: string;
+    price: number;
+    ratings: number;
+    file: string;
+    sold: number;
+    quantity: number;
   }
 
 
-export default async function Electronics(props:any) {
+export default  function Electronics(props:any) {
    
    
     const [prod, setProd] = useState<ProductDetailsProps[]>([]);
 
     useEffect(() => {
       async function fetch(id:any) {
-          try{
+          
            await axios
-        .get(`http://localhost:3000/apii/catprodz/${id}`)
+        .get(`http://localhost:3000/category/catprodz/${id}`)
         .then((response) => {
           setProd(response.data);
         })
         .catch((error) => {
           console.error(error);
-        })}catch(err){console.log(err)}
+        })
   
           }
       fetch(props.params.categorys)
       
     }, []);
 
+    const addToCart = async (productId: number) => {
+      try {
+        await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      }
+    };
+  
    
-  const getphone= async function (id:number) {
-      try{
+  const getphone= async function (id:any) {
+        const a=props.params.categorys
           await axios
-          .get(`http://localhost:3000/apii/catprodz/${props.params.categorys}/${id}`)
+          .get(`http://localhost:3000/category/catprodz/${a}/${id}`)
           .then((response) => {
             setProd(response.data)}) 
             .catch((error) => {
               console.error(error)});
-      }catch(err){console.log(err)}
+      
       
   }
+  const addToWishList = async (productId: any) => {
+    try {
+        const response = await axios.post('http://localhost:3000/wish/add', { UserUserId: 1, productProdId: productId });
+        console.log('Added to wishlist:', response.data);
+    } catch (error) {
+        console.error('Error adding to wishlist:', error);
+    }
+};
 
-
+const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
+  const stars = Array.from({ length: 5 }, (_, index) => (
+      <StarIcon key={index} color={index < rating ? 'warning' : 'disabled'} />
+  ));
+  return <div>{stars}</div>;
+};
 
 
 return(
@@ -72,15 +90,15 @@ return(
 
 
     
-<div style={{ width: '100%', height: '100vh', borderTop: '1px solid black', boxShadow: 4 }}>
+<div style={{ width: '100%', height: '100vh', borderTop: '1px solid black' }}>
   <div style={{ width: '100%', display: 'flex' }}>
     <div>  </div>
-    <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>eeee({prod.length})</h1>
+    <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>({prod.length})</h1>
     <div style={{marginLeft:150,display:'flex'}}>
     <MenuItem  onClick={()=>getphone(0)}  value="PHONE">
   Phone
 </MenuItem>    
-<MenuItem  onClick={()=>getphone(1)} value="sMART WATCH">
+<MenuItem  onClick={()=>getphone('1')} value="SMART WATCH">
   SmartWatch
 </MenuItem>
 <MenuItem  onClick={()=>getphone(2)} value="COMPUTER">
@@ -92,34 +110,34 @@ return(
     </div>
   </div>
 
-  <div style={{ width: '100%', margin: 'auto', marginTop: 10 }}>
-    {prod.map((e) => (
-      <Card
-        key={e.prodId} 
-        sx={{ width: 300, height: 300, margin: 'auto', marginLeft: 8, display: 'inline-block', marginTop: 15 }}
-      >
-        <CardMedia component="img" height="160px" image={e.file} alt="Product" />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {e.name} - {e.price}
-            <ReviewIcon rating={4} />
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
-        <Button
-          onClick={() => {}} 
-          sx={{ marginLeft: 20, marginTop: 5, backgroundColor: 'black', width: 'auto' }}
-          variant="contained"
-          disableElevation
-        >
-          ADD TO THE CART
-        </Button>
-        
-      </Card>
+  <div style={{ width: '100%', margin: 'auto', marginTop: 10,display:'flex',flexWrap:"wrap" }}>
+    {prod.map((product,index) => (
+      
+        <Card key={index} sx={{ width: 250, boxShadow: 4,marginLeft:5 }}>
+           <Link href={`/onepost/${product.prodId}`}>
+
+            <CardMedia component="img" height="150" image={product.file}  alt={product.name} />
+            </Link>
+            <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                    {product.name} - ${product.price}
+                    <ReviewIcon rating={product.ratings}/>
+                </Typography>
+            </CardContent>
+            <CardActions style={{ justifyContent: 'space-between' }}>
+                <IconButton aria-label="add to favorites" onClick={() => addToWishList(product.prodId)}>
+                    <FavoriteIcon />
+                </IconButton>
+
+                <Button
+                    onClick={() => addToCart(product.prodId)}
+                    sx={{ backgroundColor: 'black', color: 'black' }}
+                    variant="contained"
+                >
+                    ADD TO CART
+                </Button>
+            </CardActions>
+        </Card>
     ))}
   </div>
 </div>

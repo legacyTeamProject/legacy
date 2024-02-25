@@ -1,11 +1,12 @@
 const conn = require('../Connection')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require("dotenv").config()
-const secretKey = process.env.JWT_SECRET;
-console.log("secret",secretKey)
-//test
+const secretKey = process.env.JWT_SECRET||"12345"
 const connection=conn.models
+console.log(conn.models.users,'usersssssssssssssssss');
+
+
+require("dotenv").config() 
 
 const signupUser = async (req, res) => {
     try {
@@ -22,16 +23,15 @@ const signupUser = async (req, res) => {
         })
         return res.status(200).json(newUser)
     } catch (err) {
-        console.error('Error in registering user:', err);;
+        console.error('Error in registering user:', err);
+        res.send(err)
     }
 }
 const loginUser = async (req, res) => {
     try {
         const email = req.body.email
         const password = req.body.password
-        const user = await connection.users.findOne({
-            where: {email:email}
-        })
+        const user = await connection.users.findOne({where: {email:email}})
         if (!user) {
             return res.status(404).json('Email not found');
         }
@@ -49,10 +49,3 @@ const loginUser = async (req, res) => {
     }
 }
 module.exports={ signupUser ,loginUser}
-
-
-   
-           
-
-           
-             
