@@ -14,6 +14,7 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Cookies from "js-cookie";
 interface ProductDetailsProps {
     prodId: number;
     name: string;
@@ -50,7 +51,7 @@ export default  function Electronics(props:any) {
 
     const addToCart = async (productId: number) => {
       try {
-        await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+        await axios.post('http://localhost:3000/cartt/addOne', { userUserId: Cookies.get('id'), productProdId: productId, CartQuantity: 1 });
       } catch (error) {
         console.error('Error adding to cart:', error);
       }
@@ -95,10 +96,10 @@ return(
     <div>  </div>
     <h1 style={{ marginTop: 60, marginLeft: 40, borderBottom: 1 }}>({prod.length})</h1>
     <div style={{marginLeft:150,display:'flex'}}>
-    <MenuItem  onClick={()=>getphone(0)}  value="PHONE">
+    <MenuItem  onClick={()=>getphone(4)}  value="PHONE">
   Phone
 </MenuItem>    
-<MenuItem  onClick={()=>getphone('1')} value="SMART WATCH">
+<MenuItem  onClick={()=>getphone(1)} value="SMART WATCH">
   SmartWatch
 </MenuItem>
 <MenuItem  onClick={()=>getphone(2)} value="COMPUTER">

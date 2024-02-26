@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
-
+import Cookies from 'js-cookie';
 function ProductDetails(props: any) {
     interface ProductDetailsProps {
         prodId: number;
@@ -97,7 +97,7 @@ function ProductDetails(props: any) {
 
     const handleRatingClick = async (value: number) => {
         try {
-            const res = await axios.post(`http://localhost:3000/apii/addrating/${1}/${props.params.id}`, { rate: value });
+            const res = await axios.post(`http://localhost:3000/apii/addrating/${Cookies.get("id")}/${props.params.id}`, { rate: value });
             
             setRating(value); 
             
@@ -154,7 +154,7 @@ function ProductDetails(props: any) {
                         <Button
                             variant='contained'
                             color='primary'
-                            onClick={() => handleSubmitComment({ content: commentInput, productProdId: props.params.id, userUserId: 1 })}
+                            onClick={() => handleSubmitComment({ content: commentInput, productProdId: props.params.id, userUserId:Cookies.get("id") })}
                         >
                             Submit Comment
                         </Button>
@@ -162,7 +162,7 @@ function ProductDetails(props: any) {
                             sx={{ color: 'black', marginLeft: '10px' }}
                             variant='contained'
                             color='primary'
-                            onClick={() => addCart({ userUserId: 1, productProdId: props.params.id, CartQuantity: 1 })}
+                            onClick={() => addCart({ userUserId :Cookies.get("id"), productProdId: props.params.id, CartQuantity: 1 })}
                         >
                             Add to Cart
                         </Button>

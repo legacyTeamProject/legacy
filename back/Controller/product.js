@@ -108,26 +108,32 @@ const UpdatePro = async(req,res) => {
         catch (error) {res.send(error)} 
     } 
 
-    const rating = async (req,res) => {
+    const rating = async (req, res) => {
         try {
-          
-          const ratings = await model.rate.findAll({
-            where: { productProdId: req.params.id }
-          });
-      
-          
-          const sumOfRatings = ratings.reduce((total, rating) => total + rating.rate, 0);
-      
-          
-          const averageRating = sumOfRatings / ratings.length;
-      
-          res.json( averageRating);
+            
+            const ratings = await model.rate.findAll({ where: { productProdId: req.params.id } });
+    
+            
+            if (ratings.length === 0) {
+                return res.status(404).json({ error: "No ratings found for the product." });
+            }
+    
+            
+            const sumOfRatings = ratings.reduce((total, rating) => total + rating.rate, 0);
+    
+            
+            const averageRating = sumOfRatings / ratings.length;
+    
+            
+            await model.product.update({ ratings: averageRating }, { where: { prodId: req.params.id } });
+    
+            
+            res.json({ averageRating });
         } catch (error) {
-          console.error("Error calculating average rating:", error);
-          throw error;
+            console.error("Error calculating average rating:", error);
+            res.status(500).json({ error: "An internal server error occurred." });
         }
-      };
-
+    };
 
       const getrating = async (req,res) => {
         try {
@@ -147,34 +153,38 @@ const UpdatePro = async(req,res) => {
 
       const addRate = async (req, res) => {
         try {
-         
-          const { userid, prodid } = req.params;
-      
-          
-          const existingRating = await model.rate.findOne({
-            where: { userUserId: userid, productProdId: prodid }
-          });
-      
-          
-          if (existingRating) {
-            await existingRating.update({
-                rate : req.body.rate
+            
+            const { userid, prodid } = req.params;
+    
+           
+            const existingRating = await model.rate.findOne({
+                where: { userUserId: userid, productProdId: prodid }
             });
-          } else {
-            await model.rate.create({
-              userUserId: userid,
-              productProdId: prodid,
-              rate : req.body.rate
-            });
-          }
-      
-         
-          res.status(200).send("Rating added successfully");
+    
+            if (existingRating) {
+                await existingRating.update({
+                    rate: req.body.rate
+                });
+            } else {
+                await model.rate.create({
+                    userUserId: userid,
+                    productProdId: prodid,
+                    rate: req.body.rate
+                });
+            }
+    
+            
+            await model.product.update({ ratings: req.body.rate }, { where: { prodId: prodid } });
+    
+          
+            res.status(200).send("Rating added successfully");
         } catch (error) {
-          console.error("Error adding rating:", error);
-          res.status(500).send("Internal Server Error");
+            console.error("Error adding rating:", error);
+            
+            res.status(500).send("Internal Server Error");
         }
-      };
+    };
+    
       
 
 

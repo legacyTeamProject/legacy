@@ -1,96 +1,76 @@
-'use client'
-
-import React,{useContext,useState} from 'react'
+"use client"
+import React, { useEffect, useState } from 'react';
+import Chart from 'chart.js/auto';
 import axios from 'axios';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-// import { updateUserRole } from '../../../server/Controller/Client';
-
-const Overview = () => {
-const [role,setRole]=useState<string>('')
-
-    const deleteUser=(userId:any)=>{
-        axios.delete(`http://localhost:3000/client/delete/${userId}`)
-        .then((res)=>{console.log("deleted")})
-        .catch((error)=>{console.log("error")})
-    }
-
-
-    const UpdateUserStatus=(userId:any,obj:{})=>{
-        axios.put(`http://localhost:3000/client/updateRole/${userId}`,obj)
-        .then((res)=>{console.log("updated")})
-        .catch((error)=>{console.log("error UPD")})
-    }
-
-
-
-  return (
-    
-
-    <div style={{padding:5,height:1000}}>
-       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
-
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3">
-                    User id
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    User Full Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    User Role
-                </th>
-                
-                <th scope="col" className="px-6 py-3">
-               User Image
-                </th>
-                <th scope="col" className="px-6 py-3">
-               
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-        {/* {users.map((user,index)=> (
-                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            
-            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {user.userId}
-            </th>
-            <td className="px-6 py-4">
-                {user.firstName} {user.lastName} 
-            </td>
-            <td className="px-6 py-4">
-                {user.role}
-            </td>
-            
-            <td className="px-6 py-4">
-            <img src={user.image} alt="" className='w-20 h-20'/>
-            </td>
-            <td className="px-6 py-4">
-            <DeleteIcon onClick={()=>{deleteUser(user.userId)}}/>
-
-            <select onChange={(e)=>setRole(e.target.value)}>
-                <option >{"Client"}</option>
-                <option >{"Seller"}</option>
-            </select>
-
-            <EditIcon onClick={()=>{UpdateUserStatus(user.userId,{role:role})}}/>
-            <button  onClick={()=>{UpdateUserStatus(user.userId,{role:role})}}> Update </button>
-            </td>
-        </tr>
-                )
-
-                )} */}
-            
-        </tbody>
-    </table>
-</div>
-</div>
- 
-  )
+interface Product {
+  name: string;
+  price: number;
 }
 
-export default Overview
+const ProductChart: React.FC = () => {
+  const [productData, setProductData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    axios.get<Product[]>("http://localhost:3000/product")
+      .then((res) => {
+        const products = res.data;
+        setProductData(products);
+        renderChart(products);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const renderChart = (products: Product[]) => {
+    const ctx = document.getElementById('productChart') as HTMLCanvasElement;
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: products.map(product => product.name),
+        datasets: [{
+          label: 'Price',
+          data: products.map(product => product.price),
+          backgroundColor: products.map(() => 'rgba(100, 0, 20, 0.2)'), 
+          borderColor: 'rgba(207, 0, 15, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)' 
+            }
+          },
+          x: {
+            grid: {
+              display: false 
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false 
+          }
+        }
+      }
+    });
+  };
+
+  return (
+    <div className="bg-white p-4 rounded-md shadow-md">
+      <h2 className="text-red-500 font-bold text-lg mb-4">Product Chart</h2>
+      <div className="relative" style={{ height: '400px' }}> 
+        <canvas id="productChart" className="w-full h-full" /> 
+        <div className="absolute bottom-0 left-0 p-4 bg-white border-t border-gray-200 w-full"> 
+          <p className="text-gray-600 text-sm">Prices of different products</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductChart;

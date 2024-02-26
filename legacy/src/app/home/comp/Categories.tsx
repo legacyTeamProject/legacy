@@ -15,12 +15,12 @@ const Categories = () => {
               <Phone sx={{ width: 100,height:150,marginLeft:10 }} />
             
           </Link>
-          <Link href={{pathname: "/sub/1", query: {catId: 1}}}>
+          <Link href={{pathname: "/sub/2", query: {catId: 1}}}>
               <Computer sx={{ width: 100,height:150,marginLeft:10 }} />
             
           </Link>
 
-          <Link href={{pathname: "/sub/1", query: {catId: 1}}} >
+          <Link href={{pathname: "/sub/3", query: {catId: 1}}} >
               <Camera sx={{ width: 100,height:150,marginLeft:10 }}  />
             
           </Link>
@@ -29,7 +29,7 @@ const Categories = () => {
               <Headphones sx={{ width: 100,height:150,marginLeft:10 }} />
             
           </Link>
-          <Link href={{pathname: "/sub/1", query: {catId: 1}}}>
+          <Link href={{pathname: "/sub/4", query: {catId: 1}}}>
               <VideogameAsset sx={{ width: 100,height:150,marginLeft:10 }} />
           </Link>
         </div>

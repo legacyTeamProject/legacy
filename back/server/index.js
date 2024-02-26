@@ -16,6 +16,8 @@ const wishrouter=require('./Routes/wishRoute')
 const ImageRouter=require('./Routes/ImgRoute')
 const cartRouter=require('./Routes/cartRoute')
 const commentRouter=require('./Routes/commentRoutes')
+// const paymentRouter = require('./Routes/paymentRoute')
+const paymentRouter =  require("./Routes/paymentRoute")
 // const paymentRouter=require('./Routes/payment')
 
 
@@ -39,7 +41,7 @@ app.use('/img',ImageRouter)
 app.use('/cartt', cartRouter)
 app.use('/comment', commentRouter)
 
-// app.use('/api',paymentRouter)
+app.use('/api',paymentRouter)
 
 // connection.sync({alter: true})
 connection.sync()

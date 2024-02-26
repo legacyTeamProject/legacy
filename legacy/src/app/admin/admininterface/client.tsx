@@ -1,12 +1,59 @@
 'use client'
 
-import React from 'react'
-import { Height } from '@mui/icons-material'
-const ClientInfo = () => {
+import React,{useContext,useEffect,useState} from 'react'
+import axios from 'axios';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+// import { updateUserRole } from '../../../server/Controller/Client';
+interface SellerInfo {
+    userId: string;
+    firstName : string
+    lastName : string
+    image: string;
+    role:string
+  }
+
+
+const Overview = () => {
+const [role,setRole]=useState<string>('')
+
+    // const deleteUser=(userId:any)=>{
+    //     axios.delete(`http://localhost:3000/client/delete/${userId}`)
+    //     .then((res)=>{console.log("deleted")})
+    //     .catch((error)=>{console.log("error")})
+    // }
+
+
+    // const UpdateUserStatus=(userId:any,obj:{})=>{
+    //     axios.put(`http://localhost:3000/client/updateRole/${userId}`,obj)
+    //     .then((res)=>{console.log("updated")})
+    //     .catch((error)=>{console.log("error UPD")})
+    // }
+    const[user,setUser]=useState<SellerInfo[]>([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await fetch(`http://localhost:3000/client/getAll`);
+            const result = await response.json();
+            setUser(result);
+          } 
+          catch (error) {
+            console.log('Error fetching data:', error);
+          }
+        };
+        fetchData();
+      }, [])
+    
+
+
   return (
     
-<div style={{padding:5,height:1000}}>
- <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
+
+    <div style={{padding:5,height:1000}}>
+       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
+    
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -17,29 +64,20 @@ const ClientInfo = () => {
                     User Full Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    
+                    User Role
                 </th>
                 
                 <th scope="col" className="px-6 py-3">
-                favorite Items 
+               User Image
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Stats
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Total Payed
+               
                 </th>
             </tr>
         </thead>
-
-
-
-
         <tbody>
-        {/* {users.map((user,index)=>{
-            if(user.role==="Client") {
-                return (
-                    <tr  key={index}className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        {user.map((user,index)=> (
+                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {user.userId}
@@ -48,28 +86,34 @@ const ClientInfo = () => {
                 {user.firstName} {user.lastName} 
             </td>
             <td className="px-6 py-4">
-                <img src={user.image} alt="" className='w-20 h-20'/>
+                {user.role}
             </td>
             
             <td className="px-6 py-4">
-           
+            <img src={user.image} alt="" className='w-20 h-20'/>
             </td>
             <td className="px-6 py-4">
-            </td>
-            <td className="px-6 py-4">
-                2000
+            <DeleteIcon onClick={()=>{deleteUser(user.userId)}}/>
+
+            <select onChange={(e)=>setRole(e.target.value)}>
+                <option >{"Client"}</option>
+                <option >{"Seller"}</option>
+            </select>
+
+            <EditIcon />
+            <button  > Update </button>
             </td>
         </tr>
                 )
-            }
-                    
-                })} */}
+
+                )} 
             
         </tbody>
     </table>
 </div>
 </div>
+ 
   )
 }
 
-export default ClientInfo
+export default Overview

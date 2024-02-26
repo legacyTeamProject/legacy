@@ -64,7 +64,7 @@ const WishList: React.FC = () => {
 
   const addToCart = async (productId: number) => {
     try {
-      await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+      await axios.post('http://localhost:3000/cartt/addOne', { userUserId: Cookies.get('id'), productProdId: productId, CartQuantity: 1 });
     } catch (error) {
       console.error('Error adding to cart:', error);
     }

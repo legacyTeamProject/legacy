@@ -33,7 +33,7 @@ const SellerInfo = () => {
 useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/client/getSome/client`);
+        const response = await fetch(`http://localhost:3000/client/getSome/seller`);
         const result = await response.json();
         setSellers(result);
         console.log(sellers);
@@ -50,74 +50,36 @@ useEffect(() => {
 
   return (
     
-    <div>
-
-
-,<div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3" >
-                    SellerId
-                </th>
-                <th scope="col" className="px-6 py-3" >
-                    Seller Full Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Average Rating
-                </th>
-                <th scope="col" className="px-6 py-3">
-                Total Earnings
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    More Details
-                </th>
-            </tr>
+    <div className="container mx-auto mt-10">
+    <div className="overflow-x-auto">
+      <table className="w-full table-auto">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="px-4 py-2">Seller ID</th>
+            <th className="px-4 py-2">Seller Name</th>
+            <th className="px-4 py-2">Email</th>
+            <th className="px-4 py-2">Average Rating</th>
+            <th className="px-4 py-2">Total Earnings</th>
+            <th className="px-4 py-2">More Details</th>
+          </tr>
         </thead>
-
-
-
-
         <tbody>
-             {sellers.map((element)=>{
-               
-                    return (
-                        <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {element.userId}
-                        </th>
-                        <td className="px-6 py-4">
-                            {element.firstName} {element.lastName}
-                        </td>
-                        <td className="px-6 py-4">
-                           {element.email} 
-                        </td>
-                        <td className="px-6 py-4">
-                            4 WishtList Component
-                        </td>
-                        <td className="px-6 py-4">
-                        
-                        2999
-                        </td>
-
-                        <td className="px-6 py-4"
-                
-                          
-                          > <Products /> 
-                            
-                        </td>
-                    </tr>
-                    )
-                
-            })} 
-           
+          {sellers.map((seller) => (
+            <tr key={seller.userId} className="bg-white">
+              <td className="border px-4 py-2">{seller.userId}</td>
+              <td className="border px-4 py-2">{`${seller.firstName} ${seller.lastName}`}</td>
+              <td className="border px-4 py-2">{seller.email}</td>
+              <td className="border px-4 py-2">4</td>
+              <td className="border px-4 py-2">2999</td>
+              <td className="border px-4 py-2">
+                <Products />
+              </td>
+            </tr>
+          ))}
         </tbody>
-    </table>
-</div>
-</div>
+      </table>
+    </div>
+  </div>
   )
 }
 
