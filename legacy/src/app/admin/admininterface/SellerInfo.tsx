@@ -4,10 +4,21 @@ import React from 'react'
 import {useContext,useState,useEffect} from 'react'
 import axios from 'axios'
 import Products from './produc'
+
+
 const SellerInfo = () => {
+
+    interface SellerInfo {
+        userId: string;
+        firstName : string
+        lastName : string
+        email: number;
+      }
+
+
     const [single,setSingle]=useState()
   const[someProd,setSomeProd]=useState([])
-
+  const [sellers, setSellers] = useState<SellerInfo[]>([]);
 // const getUser =(userId)=>{
 // axios.get(`http://localhost:3000/client/get/${userId}`)
 // .then((res)=>{console.log("singleeeeeeeeeeeeeeeeeeee")})
@@ -19,9 +30,23 @@ const SellerInfo = () => {
 // .catch((error)=>console.log("error"));
 // }
 
+useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/client/getSome/client`);
+        const result = await response.json();
+        setSellers(result);
+        console.log(sellers);
+        console.log(result);
+      } 
+      catch (error) {
+        console.log('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, [])
 
-
-
+ 
 
   return (
     
@@ -57,18 +82,18 @@ const SellerInfo = () => {
 
 
         <tbody>
-            {/* {users.users.map((user,ii)=>{
-                if(user.role==="Seller") {
+             {sellers.map((element)=>{
+               
                     return (
-                        <tr key={ii} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {user.userId}
+                            {element.userId}
                         </th>
                         <td className="px-6 py-4">
-                            {user.firstName} {user.lastName}
+                            {element.firstName} {element.lastName}
                         </td>
                         <td className="px-6 py-4">
-                            <img src={user.image} alt="" className='w-20 h-20'/>
+                           {element.email} 
                         </td>
                         <td className="px-6 py-4">
                             4 WishtList Component
@@ -79,15 +104,15 @@ const SellerInfo = () => {
                         </td>
 
                         <td className="px-6 py-4"
-                          onClick={()=>{getUser(user.userId)}}
+                
                           
                           > <Products /> 
                             
                         </td>
                     </tr>
                     )
-                }
-            })} */}
+                
+            })} 
            
         </tbody>
     </table>
