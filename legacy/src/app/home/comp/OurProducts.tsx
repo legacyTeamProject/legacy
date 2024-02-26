@@ -15,6 +15,7 @@ import StarIcon from '@mui/icons-material/Star';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Cookies from 'js-cookie';
 
 const OurProducts = () => {
   interface Product {
@@ -81,7 +82,7 @@ const OurProducts = () => {
 
   const addToCart = async (productId: any) => {
     try {
-      await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+      await axios.post('http://localhost:3000/cartt/addOne', { userUserId:Cookies.get('id') , productProdId: productId, CartQuantity: 1 });
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -89,7 +90,7 @@ const OurProducts = () => {
 
   const addToWishList = async (productId: any, index: number) => {
     try {
-      const response = await axios.post('http://localhost:3000/wish/add', { userUserId: 1, productProdId: productId });
+      const response = await axios.post('http://localhost:3000/wish/add', { userUserId: Cookies.get('id'), productProdId: productId });
       console.log('Added to wishlist:', response.data);
       setFavoriteStates(prevStates => {
         const newStates = [...prevStates];

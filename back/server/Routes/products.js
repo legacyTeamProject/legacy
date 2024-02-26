@@ -1,5 +1,5 @@
 const productRouter = require('express').Router();
-const {AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser, AddProimg ,getProimg ,UpdateRating,updateSellerProd, rating, GetOneByrate } = require('../../Controller/product');
+const {AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser, AddProimg ,getProimg ,UpdateRating,updateSellerProd, rating, GetOneByrate, addRate, getrating } = require('../../Controller/product');
 
 productRouter.get('/product',AllPro)
 productRouter.get('/product/:id',GetOnePro)
@@ -10,6 +10,8 @@ productRouter.post('/productImg',AddProimg)
 productRouter.get('/productImg/:id',getProimg)
 productRouter.get('/getrating/:id',rating)
 productRouter.get('/getbyrate/:rate',GetOneByrate)
+productRouter.get('/getrating',getrating)
+productRouter.post('/addrating/:userid/:prodid',addRate)
 
 
 

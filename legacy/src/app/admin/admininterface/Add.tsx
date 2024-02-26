@@ -45,7 +45,8 @@ const updateCategory=(catId:any,content:string)=>{
 }
 
 return (
-<div>
+<div style={{marginLeft:20}}>
+  <h1 style={{fontSize:25}}>add category as you want</h1>
 <Button onClick={handleOpen}>See All categories</Button>
 <Modal
 open={open}

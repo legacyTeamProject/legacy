@@ -127,10 +127,58 @@ const UpdatePro = async(req,res) => {
           throw error;
         }
       };
+
+
+      const getrating = async (req,res) => {
+        try {
+          
+          const ratings = await model.rate.findAll({
+            
+          });
+      
+          res.json( ratings);
+        } catch (error) {
+          console.error("Error calculating average rating:", error);
+          throw error;
+        }
+      };
+
+
+
+      const addRate = async (req, res) => {
+        try {
+         
+          const { userid, prodid } = req.params;
+      
+          
+          const existingRating = await model.rate.findOne({
+            where: { userUserId: userid, productProdId: prodid }
+          });
+      
+          
+          if (existingRating) {
+            await existingRating.update({
+                rate : req.body.rate
+            });
+          } else {
+            await model.rate.create({
+              userUserId: userid,
+              productProdId: prodid,
+              rate : req.body.rate
+            });
+          }
+      
+         
+          res.status(200).send("Rating added successfully");
+        } catch (error) {
+          console.error("Error adding rating:", error);
+          res.status(500).send("Internal Server Error");
+        }
+      };
       
 
 
 
-module.exports={AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser,AddProimg,getProimg ,UpdateRating,updateSellerProd,rating,GetOneByrate}
+module.exports={addRate,AllPro,GetOnePro,AddPro,DeletePro,UpdatePro,GetOneByUser,AddProimg,getProimg ,UpdateRating,updateSellerProd,rating,GetOneByrate,getrating}
 
 

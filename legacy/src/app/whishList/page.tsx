@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Cookies from 'js-cookie';
 
 interface Product {
   prodId: number;
@@ -47,12 +48,13 @@ const WishList: React.FC = () => {
       }
     };
 
-    fetchData(1);
+    fetchData( Cookies.get('id'));
+    
   }, [refresh]);
 
-  const deleted = async (idWishlist: number, userId: number) => {
+  const deleted = async (idWishlist: number) => {
     try {
-      await axios.delete(`http://localhost:3000/wish/delete/${idWishlist}/${userId}`);
+      await axios.delete(`http://localhost:3000/wish/delete/${idWishlist}/${Cookies.get('id')}`);
       console.log('Deleted from wishlist');
       setRefresh(!refresh);
     } catch (error) {
@@ -85,7 +87,7 @@ const WishList: React.FC = () => {
                   <ReviewIcon rating={product.ratings} />
                 </Typography>
               </CardContent>
-              <IconButton onClick={() => deleted(product.prodId, 1)}>
+              <IconButton onClick={() => deleted(product.prodId)}>
                 <DeleteIcon />
               </IconButton>
               <CardActions style={{ justifyContent: 'space-between' }}>
