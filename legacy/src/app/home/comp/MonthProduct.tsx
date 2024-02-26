@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import StarIcon from '@mui/icons-material/Star';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+import Cookies from 'js-cookie';
 interface Product {
     prodId: number;
     name: string;
@@ -64,7 +64,7 @@ const MonthProduct = () => {
 
     const addToCart = async (productId: any) => {
         try {
-            await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+            await axios.post('http://localhost:3000/cartt/addOne', { userUserId: Cookies.get('id'), productProdId: productId, CartQuantity: 1 });
         } catch (error) {
             console.error('Error adding to cart:', error);
         }
@@ -72,7 +72,7 @@ const MonthProduct = () => {
 
     const addToWishList = async (productId: any, index: number) => {
         try {
-            const response = await axios.post('http://localhost:3000/wish/add', { UserUserId: 1, productProdId: productId });
+            const response = await axios.post('http://localhost:3000/wish/add', { UserUserId: Cookies.get('id'), productProdId: productId });
             console.log('Added to wishlist:', response.data);
             // Toggle the favorite state for the clicked product
             const newFavoriteStates = [...favoriteStates];

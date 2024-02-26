@@ -1,11 +1,12 @@
 'use client'
 
 import React from 'react'
+import { Height } from '@mui/icons-material'
 const ClientInfo = () => {
   return (
     
-
-<div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
+<div style={{padding:5,height:1000}}>
+ <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -66,6 +67,7 @@ const ClientInfo = () => {
             
         </tbody>
     </table>
+</div>
 </div>
   )
 }

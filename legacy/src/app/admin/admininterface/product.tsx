@@ -4,7 +4,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import {useContext} from 'react'
-import Products from '../produc/page';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 const ProductInfo = () => {
@@ -21,7 +20,8 @@ const ProductInfo = () => {
 //jib all product w mapi alihom 
 
   return (
-    <div>
+    <div style={{padding:5,height:1000}}>
+ 
    
     <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10 w-4/5 ml-auto mr-auto">
        

@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Categories from './home/comp/Categories'
 import OurProducts from './home/comp/OurProducts'
 import MonthProduct from './home/comp/MonthProduct'
+import Marquee from 'react-fast-marquee';
 
 interface Category {
   catId: number;
@@ -44,6 +45,10 @@ const Home = () => {
   return (
     <div className='home-container' style={{width:'100%',display:'block'}}>
      
+     <Marquee behavior="scroll" direction="left" style={{ width: '100%', height: '40px', fontSize: '30px', color: 'red' }}>
+        Welcome to our awesome website! Check out the latest products and categories.
+      </Marquee>
+
 <div style={{display:'flex',width:'80%',margin:'auto',height:500}}>
 <ul style={{width:'30%',marginLeft:5,marginTop:20,fontSize:20}}>
         {category.map((el, i) => (

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cloudzz from '../home/comp/Cloudzz';
+import Cookies from 'js-cookie';
 ////////
 interface CartItem {
   prodId: number;
@@ -24,9 +25,11 @@ const CartProduct: React.FC = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/cartt/getUserc/1');
+        const res = await axios.get(`http://localhost:3000/cartt/getUserc/${Cookies.get('id')}  `);
         setCart(res.data);
-        console.log(res.data);
+        console.log(res.data)
+        console.log("coookiesss", Cookies.get('id') );
+        ;
         
         setQuantity( 1);
       } catch (error) {
@@ -46,9 +49,9 @@ const CartProduct: React.FC = () => {
     }
   };
 
-  const deleteProduct = async (prod: number,id:number) => {
+  const deleteProduct = async (prod: number) => {
       
-      await axios.delete(`http://localhost:3000/cartt/deletprod/${prod}/${id}`)
+      await axios.delete(`http://localhost:3000/cartt/deletprod/${prod}/${ Cookies.get('id') }`)
       .then((res)=>{console.log(res),
       setrefresh(!refresh)})
       .catch((err)=>{console.log(err)})
@@ -112,7 +115,7 @@ const CartProduct: React.FC = () => {
                         </td>
                         <td className="py-4">{item.price * quantity}</td>
                         <td className="py-4">
-                          <button className="text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center" onClick={() =>{ deleteProduct(item.prodId,1)}}>Remove</button>
+                          <button className="text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center" onClick={() =>{ deleteProduct(item.prodId)}}>Remove</button>
                         </td>
                       </tr>
                     ))}
