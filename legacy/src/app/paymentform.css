@@ -1,0 +1,63 @@
+/* components/PaymentForm.css */
+
+.payment-form {
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Explicit box shadow */
+  background-color: #f7f7f7;
+  transition: box-shadow 0.3s ease-in-out; /* Added transition effect */
+}
+
+.payment-form:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
+}
+
+.payment-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.payment-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.payment-form button {
+  background-color: #000000;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.payment-form button:hover {
+  background-color: hwb(6 24% 9%); /* Updated hover color to red */
+}
+
+.payment-form button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.payment-form button:disabled:hover {
+  background-color: #ddd;
+}
+
+/* Optional: Add styling for form validation error messages */
+.payment-form .error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 8px;
+}
