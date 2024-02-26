@@ -53,8 +53,7 @@ const deleteProd=(prodId:number)=>{
       };
         
   return (
-  <div style={{padding:5,marginLeft:25,height:1000}}>
- <h1 style={{fontSize:25}}>you can display your product in the home page</h1>
+  <div style={{}}>
 <div>
  
   <Button onClick={handleOpen}>Click here</Button>

@@ -1,4 +1,5 @@
 'use client'
+import AccountMenu from '@/app/home/comp/DropDown'
 import React from 'react'
 
 const Header = () => {
@@ -52,13 +53,19 @@ const Header = () => {
                         <a href="/" className="block py-2 px-3 text-gray-900 rounded no-underline hover:underline">Home</a>
                     </li>
                     <li>
-                        <a href="/aboutUS" className="block py-2 px-3 text-gray-900 rounded no-underline hover:underline">About Us</a>
+                        <a href="/aboutUs" className="block py-2 px-3 text-gray-900 rounded no-underline hover:underline">About Us</a>
                     </li>
                     <li>
-                        <a href="/signup" className="block py-2 px-3 text-gray-900 rounded no-underline hover:underline">Sign Up </a>
+                        <a href="/singup" className="block py-2 px-3 text-gray-900 rounded no-underline hover:underline">Sign Up </a>
                     </li>
+                    <li>
+                        <a href="/login" className="block py-2 px-3 text-gray-900 rounded no-underline hover:underline">Log-In</a>
+                    </li>
+                    
+                   
                 </ul>
             </div>
+            <AccountMenu/>
         </div>
       </nav>
     </div>

@@ -16,6 +16,9 @@ const LogIn = () => {
       .then((result) => {
         Cookies.set('token', result.data.token);
         Cookies.set("id", result.data.user.userId);
+        Cookies.set("role", result.data.user.role);
+        Cookies.set("name", result.data.user.firstName);
+
         console.log("Role :", result.data.user.role);
         handleRedirect();
         console.log("id", result.data.user.userId);
@@ -29,10 +32,10 @@ const LogIn = () => {
   const handleRedirect = () => {
     switch (role) {
       case 'admin':
-        router.push('/admin-dashboard');
+        router.push('/admin');
         break;
       case 'seller':
-        router.push('/seller-dashboard');
+        router.push('/seller');
         break;
       case 'client':
         router.push('/client-dashboard');

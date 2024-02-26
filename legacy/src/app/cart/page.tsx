@@ -3,6 +3,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cloudzz from '../home/comp/Cloudzz';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation'
+// import useRouter from 'next'
+import path from 'path';
+import Link from 'next/link';
+
+
 ////////
 interface CartItem {
   prodId: number;
@@ -21,6 +27,16 @@ const CartProduct: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [refresh,setrefresh]= useState(false)
+
+
+const router=useRouter()
+const navigate=(path:string)=>{
+  router.push(path)
+}
+
+
+
+
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -140,14 +156,15 @@ const CartProduct: React.FC = () => {
 </div>
 <div className="flex justify-between mb-2">
   <span>Shipping</span>
-  <span>  - ${getTotal() > 150 ? getTotal() * 0.1:" 00.00"}  </span> 
+  <span>  - ${getTotal() > 1000 ? getTotal() * 0.1:" 00.00"}  </span> 
 </div>
 <hr className="my-2" />
 <div className="flex justify-between mb-2">
   <span className="font-semibold">Total</span>
   <span className="font-semibold">${getTotal() > 150 ? getTotal() - (getTotal() * 0.1) :getTotal()}</span>
 </div>
-                <button className="text-white w-full bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Process to checkout</button>
+  <Link href={'/payment'}> <button className="text-white w-full bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Process to checkout</button></Link> 
+               
               </div>
             </div>
           </div>

@@ -62,7 +62,8 @@ const OurProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/apii/product');
+        const response = await axios.get('http://localhost:3000/apii/product')
+        
         const initialFavoriteStates = response.data.map(() => false);
         setProd(response.data);
         setFavoriteStates(initialFavoriteStates);

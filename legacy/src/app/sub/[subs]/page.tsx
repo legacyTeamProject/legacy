@@ -12,6 +12,7 @@ import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button';
 import { useSearchParams } from 'next/navigation'
+import Cookies from 'js-cookie';
 
 interface Product {
   prodId: number;
@@ -58,7 +59,7 @@ export default function subs(props:any) {
   
   const addToCart = async (productId:any) => {
     try {
-      await axios.post('http://localhost:3000/cartt/addOne', { userUserId: 1, productProdId: productId, CartQuantity: 1 });
+      await axios.post('http://localhost:3000/cartt/addOne', { userUserId:Cookies.get("id"), productProdId: productId, CartQuantity: 1 });
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -66,17 +67,21 @@ export default function subs(props:any) {
 
   const addToWishList = async (productId:any) => {
     try {
-      const response = await axios.post('http://localhost:3000/wish/add', { UserUserId: 1, productProdId: productId });
+      const response = await axios.post('http://localhost:3000/wish/add', { UserUserId:Cookies.get("id"), productProdId: productId });
       console.log('Added to wishlist:', response.data);
     } catch (error) {
       console.error('Error adding to wishlist:', error);
     }
   };
+  
   const ReviewIcon: React.FC<{ rating: number }> = ({ rating }) => {
     const stars = Array.from({ length: 5 }, (_, index) => (
       <StarIcon key={index} color={index < rating ? 'warning' : 'disabled'} />
-    ));}
-  
+    ));
+
+    return <div>{stars}</div>;
+  };
+
 
   return (
     <main>

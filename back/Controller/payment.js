@@ -19,9 +19,9 @@ const getPayment = async function (req, res) {
     const prods = await Promise.all(productPromises);
     const flattenedProds = prods.flat();
 
-//    const deleted = model.cart.destroy({
-//       where : {userUserId : req.params.id}
-//    })
+   const deleted = model.cart.destroy({
+      where : {userUserId : req.params.id}
+   })
 
 
     res.json(flattenedProds);

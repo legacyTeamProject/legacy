@@ -49,15 +49,25 @@ module.exports ={
 },
     
 
-    addClient:async(req,res)=>{
-        try {
-            const result=await model.users.create(req.body)
-            res.json(result)
-            console.log(req.body) 
-        } 
-            catch (error) {
-                console.log(err) }
-        },
+addClient: async (req, res) => {
+    try {
+       
+        const existingUser = await model.users.findOne({ where: { email: req.body.email } });
+        
+      
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with this email already exists' });
+        }
+        
+    
+        const newUser = await model.users.create(req.body);
+        res.json(newUser);
+        console.log('New user created:', newUser);
+    } catch (error) {
+        console.log('Error creating user:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+},
 
 
         deleteClient:async(req,res)=>{
